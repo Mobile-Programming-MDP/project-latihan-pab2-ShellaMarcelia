@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fasum/screens/add_post_screen.dart';
 import 'package:fasum/screens/sign_in_screen.dart';
@@ -26,8 +25,12 @@ class HomeScreen extends StatelessWidget {
 
   Future<void> signOut(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
+
     Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const SignInScreen()));
+      MaterialPageRoute(
+        builder: (context) => SignInScreen()
+      )
+    );
   }
 
   @override
@@ -38,24 +41,21 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         actions: [
           IconButton(
-            onPressed: () {
+            onPressed: (){
               signOut(context);
             },
             icon: const Icon(Icons.logout),
-          )
+          ),
         ],
       ),
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection("posts")
-            .orderBy('createdAt', descending: true)
-            .snapshots(),
+        stream: FirebaseFirestore.instance.collection("posts").orderBy('createdAt', descending: true).snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData)
-            return const Center(child: CircularProgressIndicator());
+            return Center(child: CircularProgressIndicator());
 
-          final posts = snapshot.data!.docs;
-          return ListView.builder(
+            final posts = snapshot.data!.docs;
+            return ListView.builder(
             itemCount: posts.length,
             itemBuilder: (context, index) {
               final data = posts[index].data();
@@ -63,7 +63,7 @@ class HomeScreen extends StatelessWidget {
               final description = data['description'];
               final createdAtStr = data['createdAt'];
               final fullName = data['fullName'] ?? 'Anonim';
-
+ 
               //parse ke DateTime
               final createdAt = DateTime.parse(createdAtStr);
               return Card(
@@ -120,7 +120,7 @@ class HomeScreen extends StatelessWidget {
               );
             },
           );
-        },
+        }
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
