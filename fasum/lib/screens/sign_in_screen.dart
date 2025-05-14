@@ -46,17 +46,16 @@ class SignInScreenState extends State<SignInScreen> {
               ),
               const SizedBox(height: 16.0),
               ElevatedButton(
-                onPressed: ()async {
-                  try{
+                onPressed: () async {
+                  try {
                     await FirebaseAuth.instance.signInWithEmailAndPassword(
-                      email: _emailController.text, 
+                      email: _emailController.text,
                       password: _passwordController.text,
                     );
                     Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) => const HomeScreen()),
+                      MaterialPageRoute(builder: (context) => const HomeScreen()),
                     );
-                  }catch (error){
+                  } catch (error) {
                     setState(() {
                       _errorMessage = error.toString();
                     });
@@ -66,23 +65,23 @@ class SignInScreenState extends State<SignInScreen> {
                       ),
                     );
                   }
-                }, 
+                },
                 child: const Text('Sign In'),
               ),
               const SizedBox(height: 32.0),
               TextButton(
-                onPressed: (){
+                onPressed: () {
                   Navigator.push(
-                    context, 
-                    MaterialPageRoute(
-                      builder: (context) => const SignUpScreen()),
+                    context,
+                    MaterialPageRoute(builder: (context) => const SignUpScreen()),
                   );
-                }, 
-                child: const Text('Don\'t have an account? Sign Up'),
+                },
+                child: const Text('Don\'t have an account? Sign up'),
               ),
             ],
           ),
-        ),),
+        ),
+      ),
     );
   }
 }
